@@ -30,10 +30,12 @@ gameField.addEventListener('click', event => {
     --numCarrot;
     gameRestCarrot.textContent = numCarrot;
     if (numCarrot <= 0) {
-      finishGame();
+      const isWin = true;
+      finishGame(isWin);
     }
   } else if (target.className === 'bug') {
-    finishGame();
+    const isWin = false;
+    finishGame(isWin);
   }
 });
 
@@ -58,7 +60,7 @@ function startGame() {
   showPauseBtn();
   showObjects();
   startTimer();
-  hidePopup();
+  hidePopUp();
 }
 
 function pauseGame() {
@@ -66,15 +68,19 @@ function pauseGame() {
   showPlayBtn();
   hideObjects();
   stopTimer();
-  showPopup();
+  showPopUp('restart?');
 }
 
-function finishGame() {
+function finishGame(isWin) {
   isStart = false;
   gameBtn.style.visibility = 'hidden';
   hideObjects();
   stopTimer();
-  showPopup();
+  if (isWin) {
+    showPopUp('You won🥕🥕🥕');
+  } else {
+    showPopUp('You lost🙊🙊🙊');
+  }
 }
 
 function showPauseBtn() {
@@ -96,12 +102,14 @@ function showRestTime() {
   gameTimer.textContent = `${('0' + min).slice(-2)}:${('0' + sec).slice(-2)}`;
 }
 
-function showPopup() {
+function showPopUp(msg) {
+  const popUpMsg = document.querySelector('.pop-up__message');
+  popUpMsg.textContent = msg;
   popUp.classList.remove('pop-up--hidden');
   popUp.classList.add('pop-up');
 }
 
-function hidePopup() {
+function hidePopUp() {
   popUp.classList.remove('pop-up');
   popUp.classList.add('pop-up--hidden');
 }
@@ -150,7 +158,8 @@ function hideObjects() {
 function startTimer() {
   timer = setInterval(() => {
     if (restTime <= 0) {
-      finishGame();
+      const isWin = false;
+      finishGame(isWin);
     } else {
       --restTime;
       showRestTime();
