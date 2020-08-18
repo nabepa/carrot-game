@@ -3,13 +3,14 @@
 const gameBtn = document.querySelector('.game__btn');
 const gameTimer = document.querySelector('.game__timer');
 const gameField = document.querySelector('.game__field');
+const popUp = document.querySelector('.pop-up--hidden');
 
-let isPlay = false;
+let isStart = false;
 let timer = undefined;
 let restTime = 10;
 
 gameBtn.addEventListener('click', () => {
-  if (!isPlay) {
+  if (!isStart) {
     startGame();
   } else {
     pauseGame();
@@ -17,7 +18,7 @@ gameBtn.addEventListener('click', () => {
 });
 
 function initGame() {
-  isPlay = false;
+  isStart = false;
   restTime = 5;
   makeObjects('carrot', 5, './img/carrot.png');
   makeObjects('bug', 5, './img/bug.png');
@@ -25,22 +26,25 @@ function initGame() {
 }
 
 function startGame() {
-  isPlay = true;
+  isStart = true;
   showPauseBtn();
   showObjects();
   startTimer();
+  hidePopup();
 }
 
 function pauseGame() {
-  isPlay = false;
+  isStart = false;
   showPlayBtn();
   hideObjects();
   stopTimer();
+  showPopup();
 }
 
 function finishGame() {
-  isPlay = false;
+  isStart = false;
   stopTimer();
+  showPopup();
 }
 
 function showPauseBtn() {
@@ -59,6 +63,16 @@ function showRestTime(time) {
   const min = Math.floor(time / 60);
   const sec = time % 60;
   gameTimer.textContent = `${('0' + min).slice(-2)}:${('0' + sec).slice(-2)}`;
+}
+
+function showPopup() {
+  popUp.classList.remove('pop-up--hidden');
+  popUp.classList.add('pop-up');
+}
+
+function hidePopup() {
+  popUp.classList.remove('pop-up');
+  popUp.classList.add('pop-up--hidden');
 }
 
 function makeObjects(type, number, imgPath) {
