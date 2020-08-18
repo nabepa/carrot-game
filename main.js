@@ -98,6 +98,7 @@ function makeObjects(type, number, imgPath, padding) {
     newObjects.style.position = 'absolute';
     newObjects.style.top = `${y}px`;
     newObjects.style.left = `${x}px`;
+    newObjects.style.visibility = 'hidden';
     gameField.appendChild(newObjects);
   }
 }
