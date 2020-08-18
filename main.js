@@ -12,8 +12,8 @@ const replay = document.querySelector('.pop-up__replay');
 
 let isStart = false;
 let timer = undefined;
-let restTime = 10;
-let numCarrot = 5;
+let restTime = 0;
+let numCarrot = 0;
 
 gameBtn.addEventListener('click', () => {
   if (!isStart) {
@@ -45,14 +45,15 @@ replay.addEventListener('click', () => {
 });
 
 function initGame() {
+  const numBug = getRandomInt(5, 15);
   isStart = false;
-  restTime = 5;
-  numCarrot = 5;
+  restTime = getRandomInt(5, 15);
+  numCarrot = getRandomInt(5, 15);
   gameField.innerHTML = '';
   showRestTime();
   gameRestCarrot.textContent = numCarrot;
-  makeObjects('carrot', 5, './img/carrot.png', CARROT_SIZE);
-  makeObjects('bug', 5, './img/bug.png', BUG_SIZE);
+  makeObjects('carrot', numCarrot, './img/carrot.png', CARROT_SIZE);
+  makeObjects('bug', numBug, './img/bug.png', BUG_SIZE);
 }
 
 function startGame() {
