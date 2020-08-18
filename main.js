@@ -50,6 +50,7 @@ function pauseGame() {
 
 function finishGame() {
   isStart = false;
+  gameBtn.style.visibility = 'hidden';
   hideObjects();
   stopTimer();
   showPopup();
@@ -57,6 +58,7 @@ function finishGame() {
 
 function showPauseBtn() {
   const btn = gameBtn.querySelector('.fas');
+  gameBtn.style.visibility = 'visible';
   btn.classList.remove('fa-play');
   btn.classList.add('fa-pause');
 }
