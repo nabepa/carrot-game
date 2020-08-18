@@ -1,5 +1,8 @@
 'use strict';
 
+const CARROT_SIZE = 80;
+const BUG_SIZE = 50;
+
 const gameBtn = document.querySelector('.game__btn');
 const gameTimer = document.querySelector('.game__timer');
 const gameField = document.querySelector('.game__field');
@@ -28,8 +31,8 @@ function initGame() {
   restTime = 5;
   gameField.innerHTML = '';
   showRestTime();
-  makeObjects('carrot', 5, './img/carrot.png');
-  makeObjects('bug', 5, './img/bug.png');
+  makeObjects('carrot', 5, './img/carrot.png', CARROT_SIZE);
+  makeObjects('bug', 5, './img/bug.png', BUG_SIZE);
 }
 
 function startGame() {
@@ -85,11 +88,16 @@ function hidePopup() {
   popUp.classList.add('pop-up--hidden');
 }
 
-function makeObjects(type, number, imgPath) {
+function makeObjects(type, number, imgPath, padding) {
   for (let i = 0; i < number; ++i) {
     const newObjects = document.createElement('div');
+    const x = getRandomInt(0, gameField.clientWidth - padding);
+    const y = getRandomInt(0, gameField.clientHeight - padding);
     newObjects.classList.add(type);
     newObjects.innerHTML = `<img src=${imgPath} alt=${type} />`;
+    newObjects.style.position = 'absolute';
+    newObjects.style.top = `${y}px`;
+    newObjects.style.left = `${x}px`;
     gameField.appendChild(newObjects);
   }
 }
@@ -131,6 +139,12 @@ function startTimer() {
 
 function stopTimer() {
   clearInterval(timer);
+}
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
 }
 
 initGame();
