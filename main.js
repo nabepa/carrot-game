@@ -1,6 +1,7 @@
 'use strict';
 
 const gameBtn = document.querySelector('.game__btn');
+const gameField = document.querySelector('.game__field');
 
 let isPlay = false;
 
@@ -15,7 +16,8 @@ gameBtn.addEventListener('click', () => {
 
 function initGame() {
   isPlay = false;
-  makeObjects();
+  makeObjects('carrot', 5, './img/carrot.png');
+  makeObjects('bug', 5, './img/bug.png');
 }
 
 function startGame() {
@@ -46,7 +48,14 @@ function showPlayBtn() {
   btn.classList.add('fa-play');
 }
 
-function makeObjects() {}
+function makeObjects(type, number, imgPath) {
+  for (let i = 0; i < number; ++i) {
+    const newObjects = document.createElement('div');
+    newObjects.classList.add(type);
+    newObjects.innerHTML = `<img src=${imgPath} alt=${type} />`;
+    gameField.appendChild(newObjects);
+  }
+}
 
 function showObjects() {}
 
