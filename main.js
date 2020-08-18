@@ -10,6 +10,12 @@ const gameField = document.querySelector('.game__field');
 const popUp = document.querySelector('.pop-up--hidden');
 const replay = document.querySelector('.pop-up__replay');
 
+const bgm = new Audio('./sound/bg.mp3');
+const carrotPull = new Audio('./sound/carrot_pull.mp3');
+const bugPull = new Audio('./sound/bug_pull.mp3');
+const gameWin = new Audio('./sound/game_win.mp3');
+const alert = new Audio('./sound/alert.wav');
+
 let isStart = false;
 let timer = undefined;
 let restTime = 0;
@@ -29,12 +35,14 @@ gameField.addEventListener('click', event => {
     target.remove();
     --numCarrot;
     gameRestCarrot.textContent = numCarrot;
+    carrotPull.play();
     if (numCarrot <= 0) {
       const isWin = true;
       finishGame(isWin);
     }
   } else if (target.className === 'bug') {
     const isWin = false;
+    bugPull.play();
     finishGame(isWin);
   }
 });
@@ -62,6 +70,8 @@ function startGame() {
   showObjects();
   startTimer();
   hidePopUp();
+  bgm.currentTime = 0;
+  bgm.play();
 }
 
 function pauseGame() {
@@ -70,6 +80,8 @@ function pauseGame() {
   hideObjects();
   stopTimer();
   showPopUp('restart?');
+  bgm.pause();
+  alert.play();
 }
 
 function finishGame(isWin) {
@@ -77,7 +89,9 @@ function finishGame(isWin) {
   gameBtn.style.visibility = 'hidden';
   hideObjects();
   stopTimer();
+  bgm.pause();
   if (isWin) {
+    gameWin.play();
     showPopUp('You won🥕🥕🥕');
   } else {
     showPopUp('You lost🙊🙊🙊');
