@@ -4,6 +4,7 @@ const gameBtn = document.querySelector('.game__btn');
 const gameTimer = document.querySelector('.game__timer');
 const gameField = document.querySelector('.game__field');
 const popUp = document.querySelector('.pop-up--hidden');
+const replay = document.querySelector('.pop-up__replay');
 
 let isStart = false;
 let timer = undefined;
@@ -17,12 +18,18 @@ gameBtn.addEventListener('click', () => {
   }
 });
 
+replay.addEventListener('click', () => {
+  initGame();
+  startGame();
+});
+
 function initGame() {
   isStart = false;
   restTime = 5;
+  gameField.innerHTML = '';
+  showRestTime();
   makeObjects('carrot', 5, './img/carrot.png');
   makeObjects('bug', 5, './img/bug.png');
-  hideObjects();
 }
 
 function startGame() {
@@ -43,6 +50,7 @@ function pauseGame() {
 
 function finishGame() {
   isStart = false;
+  hideObjects();
   stopTimer();
   showPopup();
 }
@@ -59,9 +67,9 @@ function showPlayBtn() {
   btn.classList.add('fa-play');
 }
 
-function showRestTime(time) {
-  const min = Math.floor(time / 60);
-  const sec = time % 60;
+function showRestTime() {
+  const min = Math.floor(restTime / 60);
+  const sec = restTime % 60;
   gameTimer.textContent = `${('0' + min).slice(-2)}:${('0' + sec).slice(-2)}`;
 }
 
@@ -110,10 +118,11 @@ function hideObjects() {
 
 function startTimer() {
   timer = setInterval(() => {
-    --restTime;
-    showRestTime(restTime);
     if (restTime <= 0) {
       finishGame();
+    } else {
+      --restTime;
+      showRestTime();
     }
   }, 1000);
 }
