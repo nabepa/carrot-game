@@ -5,6 +5,7 @@ const BUG_SIZE = 50;
 
 const gameBtn = document.querySelector('.game__btn');
 const gameTimer = document.querySelector('.game__timer');
+const gameRestCarrot = document.querySelector('.game__rest-carrot');
 const gameField = document.querySelector('.game__field');
 const popUp = document.querySelector('.pop-up--hidden');
 const replay = document.querySelector('.pop-up__replay');
@@ -12,12 +13,27 @@ const replay = document.querySelector('.pop-up__replay');
 let isStart = false;
 let timer = undefined;
 let restTime = 10;
+let numCarrot = 5;
 
 gameBtn.addEventListener('click', () => {
   if (!isStart) {
     startGame();
   } else {
     pauseGame();
+  }
+});
+
+gameField.addEventListener('click', event => {
+  const target = event.target;
+  if (target.className === 'carrot') {
+    target.remove();
+    --numCarrot;
+    gameRestCarrot.textContent = numCarrot;
+    if (numCarrot <= 0) {
+      finishGame();
+    }
+  } else if (target.className === 'bug') {
+    finishGame();
   }
 });
 
@@ -29,8 +45,10 @@ replay.addEventListener('click', () => {
 function initGame() {
   isStart = false;
   restTime = 5;
+  numCarrot = 5;
   gameField.innerHTML = '';
   showRestTime();
+  gameRestCarrot.textContent = numCarrot;
   makeObjects('carrot', 5, './img/carrot.png', CARROT_SIZE);
   makeObjects('bug', 5, './img/bug.png', BUG_SIZE);
 }
@@ -90,10 +108,12 @@ function hidePopup() {
 
 function makeObjects(type, number, imgPath, padding) {
   for (let i = 0; i < number; ++i) {
-    const newObjects = document.createElement('div');
+    const newObjects = document.createElement('img');
     const x = getRandomInt(0, gameField.clientWidth - padding);
     const y = getRandomInt(0, gameField.clientHeight - padding);
     newObjects.classList.add(type);
+    newObjects.setAttribute('src', `${imgPath}`);
+    newObjects.setAttribute('alt', `${type}`);
     newObjects.innerHTML = `<img src=${imgPath} alt=${type} />`;
     newObjects.style.position = 'absolute';
     newObjects.style.top = `${y}px`;
