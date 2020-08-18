@@ -11,13 +11,13 @@ gameBtn.addEventListener('click', () => {
   } else {
     pauseGame();
   }
-  console.log(isPlay);
 });
 
 function initGame() {
   isPlay = false;
   makeObjects('carrot', 5, './img/carrot.png');
   makeObjects('bug', 5, './img/bug.png');
+  hideObjects();
 }
 
 function startGame() {
@@ -57,8 +57,28 @@ function makeObjects(type, number, imgPath) {
   }
 }
 
-function showObjects() {}
+function showObjects() {
+  const carrots = document.querySelectorAll('.carrot');
+  const bugs = document.querySelectorAll('.bug');
 
-function hideObjects() {}
+  carrots.forEach(carrot => {
+    carrot.style.visibility = 'visible';
+  });
+  bugs.forEach(bug => {
+    bug.style.visibility = 'visible';
+  });
+}
+
+function hideObjects() {
+  const carrots = document.querySelectorAll('.carrot');
+  const bugs = document.querySelectorAll('.bug');
+
+  carrots.forEach(carrot => {
+    carrot.style.visibility = 'hidden';
+  });
+  bugs.forEach(bug => {
+    bug.style.visibility = 'hidden';
+  });
+}
 
 initGame();
